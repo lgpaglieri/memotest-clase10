@@ -1,0 +1,8 @@
+.cont-img{
+    border:solid black;
+    background-color: lightskyblue;
+}
+
+#cuadro-juego{
+    display:grid;
+}
