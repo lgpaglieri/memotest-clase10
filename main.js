@@ -1,32 +1,25 @@
-let horas = 0;
 let minutos = 0;
 let segundos = 0;
 
 function actualizarCronometro() {
-  segundos++;
-  if (segundos === 60) {
-    segundos = 0;
-    minutos++;
-    if (minutos === 60) {
-      minutos = 0;
-      horas++;
-    }
-  }
-  const horasFormateadas = horas.toString().padStart(2, "0");
+
+    segundos++;
+    minutos=Math.trunc(segundos/60);
+    segundos%=60;
+
   const minutosFormateados = minutos.toString().padStart(2, "0");
   const segundosFormateados = segundos.toString().padStart(2, "0");
 
-  document.querySelector("#horas").textContent = horasFormateadas;
   document.querySelector("#minutos").textContent = minutosFormateados;
   document.querySelector("#segundos").textContent = segundosFormateados;
 }
 
-function iniciarCronometro() {
-  intervalo = setInterval(actualizarCronometro, 1000);
+function iniciarCronometro(cronometro) {
+  cronometro = setInterval(actualizarCronometro, 1000);
 }
 
-function detenerCronometro() {
-  clearInterval(intervalo);
+function detenerCronometro(cronometro) {
+  clearInterval(cronometro);
 }
 
 function manejarTurno(cartaElegida) {
@@ -89,7 +82,7 @@ function validarProgreso() {
   if (cartasAdivinadas === 6) {
     $mensajeGanador.classList.remove("invisible");
     $mensajeGanador.classList.add("visible");
-    detenerCronometro();
+    detenerCronometro(cronometro);
   }
 }
 
@@ -240,7 +233,7 @@ function desordenarDivs() {
 }
 
 function reiniciarJuego() {
-  detenerCronometro();
+  detenerCronometro(cronometro);
   horas = 0;
   minutos = 0;
   segundos = 0;
