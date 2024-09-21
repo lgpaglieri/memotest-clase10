@@ -79,7 +79,9 @@ function ejecutarPasoDos(cartaElegida) {
 let cartasAdivinadas = 0;
 
 function validarProgreso() {
+
   const $mensajeGanador = document.querySelector("#mensaje-ganador");
+  
   if (cartasAdivinadas === 6) {
     $mensajeGanador.classList.remove("invisible");
     $mensajeGanador.classList.add("visible");
@@ -133,71 +135,13 @@ function habilitarClick() {
     const imagen = document.querySelector("#div-scaloni-1 > img");
     console.log(imagen);
     manejarTurno(imagen);
-  };
+  }};
 
-  const divScaloni2 = document.querySelector("#div-scaloni-2");
-  divScaloni2.onclick = function () {
-    const imagen = document.querySelector("#div-scaloni-2 > img");
-    manejarTurno(imagen);
-  };
-
-  const divDimaria1 = document.querySelector("#div-dimaria-1");
-  divDimaria1.onclick = function () {
-    const imagen = document.querySelector("#div-dimaria-1 > img");
-    manejarTurno(imagen);
-  };
-
-  const divDimaria2 = document.querySelector("#div-dimaria-2");
-  divDimaria2.onclick = function () {
-    const imagen = document.querySelector("#div-dimaria-2 > img");
-    manejarTurno(imagen);
-  };
-
-  const divMessi1 = document.querySelector("#div-messi-1");
-  divMessi1.onclick = function () {
-    const imagen = document.querySelector("#div-messi-1 > img");
-    manejarTurno(imagen);
-  };
-
-  const divMessi2 = document.querySelector("#div-messi-2");
-  divMessi2.onclick = function () {
-    const imagen = document.querySelector("#div-messi-2 > img");
-    manejarTurno(imagen);
-  };
-  const divOtamendi1 = document.querySelector("#div-otamendi-1");
-  divOtamendi1.onclick = function () {
-    const imagen = document.querySelector("#div-otamendi-1 > img");
-    manejarTurno(imagen);
-  };
-
-  const divOtamendi2 = document.querySelector("#div-otamendi-2");
-  divOtamendi2.onclick = function () {
-    const imagen = document.querySelector("#div-otamendi-2 > img");
-    manejarTurno(imagen);
-  };
-  const divAlvarez1 = document.querySelector("#div-alvarez-1");
-  divAlvarez1.onclick = function () {
-    const imagen = document.querySelector("#div-alvarez-1 > img");
-    manejarTurno(imagen);
-  };
-
-  const divAlvarez2 = document.querySelector("#div-alvarez-2");
-  divAlvarez2.onclick = function () {
-    const imagen = document.querySelector("#div-alvarez-2 > img");
-    manejarTurno(imagen);
-  };
-
-  const divDibu1 = document.querySelector("#div-dibu-1");
-  divDibu1.onclick = function () {
-    const imagen = document.querySelector("#div-dibu-1 > img");
-    manejarTurno(imagen);
-  };
-
-  const divDibu2 = document.querySelector("#div-dibu-2");
-  divDibu2.onclick = function () {
-    const imagen = document.querySelector("#div-dibu-2 > img");
-    manejarTurno(imagen);
-  };
+const $tablero=document.querySelector('#cuadro-juego');
+$tablero.onclick=function(e){
+  const $elemento=e.target.id;
+  const $imagen=document.querySelector(`#${$elemento} > img`)
+  manejarTurno($imagen);
 }
 
 function arrayAleatorio(array) {
