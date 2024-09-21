@@ -1,5 +1,6 @@
 let minutos = 0;
 let segundos = 0;
+let cronometro;
 
 function actualizarCronometro() {
 
@@ -14,11 +15,11 @@ function actualizarCronometro() {
   document.querySelector("#segundos").textContent = segundosFormateados;
 }
 
-function iniciarCronometro(cronometro) {
+function iniciarCronometro() {
   cronometro = setInterval(actualizarCronometro, 1000);
 }
 
-function detenerCronometro(cronometro) {
+function detenerCronometro() {
   clearInterval(cronometro);
 }
 
