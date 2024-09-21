@@ -1,5 +1,6 @@
 let minutos = 0;
 let segundos = 0;
+let cronometro;
 
 function actualizarCronometro() {
 
@@ -14,11 +15,11 @@ function actualizarCronometro() {
   document.querySelector("#segundos").textContent = segundosFormateados;
 }
 
-function iniciarCronometro(cronometro) {
+function iniciarCronometro() {
   cronometro = setInterval(actualizarCronometro, 1000);
 }
 
-function detenerCronometro(cronometro) {
+function detenerCronometro() {
   clearInterval(cronometro);
 }
 
@@ -63,6 +64,7 @@ function ocultarCartas() {
 function ejecutarPasoUno(cartaElegida) {
   seleccionarCarta(cartaElegida);
   mostrarCarta(cartaElegida);
+  bloquearClickImagen(cartaElegida);
 }
 
 function ejecutarPasoDos(cartaElegida) {
@@ -78,7 +80,9 @@ function ejecutarPasoDos(cartaElegida) {
 let cartasAdivinadas = 0;
 
 function validarProgreso() {
+
   const $mensajeGanador = document.querySelector("#mensaje-ganador");
+  
   if (cartasAdivinadas === 6) {
     $mensajeGanador.classList.remove("invisible");
     $mensajeGanador.classList.add("visible");
@@ -98,9 +102,9 @@ function avanzarPasoIncorrecto() {
   document.querySelector(
     "#errores-cometidos"
   ).innerText = `Errores cometidos: ${erroresCometidos}`;
-  bloquearClick();
+  bloquearClickCuadro();
   setTimeout(ocultarCartas, 1000);
-  setTimeout(habilitarClick, 1000);
+  setTimeout(habilitarClickCuadro, 1000);
 }
 
 document.querySelector("#comenzar-juego").onclick = function () {
@@ -115,89 +119,28 @@ function ocultarBotonComenzar() {
 function comenzarJuego() {
   desordenarDivs(); // Desordenar las cartas antes de comenzar
   iniciarCronometro();
-  habilitarClick();
+  habilitarClickCuadro();
   ocultarBotonComenzar();
 }
 
-function bloquearClick() {
+function bloquearClickImagen(imagen){
+  imagen.onclick=function(){}
+}
+
+function bloquearClickCuadro() {
   const imagenes = document.querySelectorAll("img");
   imagenes.forEach(function (imagen) {
     imagen.onclick = function () {};
   });
 }
 
-function habilitarClick() {
-  const divScaloni1 = document.querySelector("#div-scaloni-1");
-  divScaloni1.onclick = function () {
-    const imagen = document.querySelector("#div-scaloni-1 > img");
-    console.log(imagen);
-    manejarTurno(imagen);
-  };
-
-  const divScaloni2 = document.querySelector("#div-scaloni-2");
-  divScaloni2.onclick = function () {
-    const imagen = document.querySelector("#div-scaloni-2 > img");
-    manejarTurno(imagen);
-  };
-
-  const divDimaria1 = document.querySelector("#div-dimaria-1");
-  divDimaria1.onclick = function () {
-    const imagen = document.querySelector("#div-dimaria-1 > img");
-    manejarTurno(imagen);
-  };
-
-  const divDimaria2 = document.querySelector("#div-dimaria-2");
-  divDimaria2.onclick = function () {
-    const imagen = document.querySelector("#div-dimaria-2 > img");
-    manejarTurno(imagen);
-  };
-
-  const divMessi1 = document.querySelector("#div-messi-1");
-  divMessi1.onclick = function () {
-    const imagen = document.querySelector("#div-messi-1 > img");
-    manejarTurno(imagen);
-  };
-
-  const divMessi2 = document.querySelector("#div-messi-2");
-  divMessi2.onclick = function () {
-    const imagen = document.querySelector("#div-messi-2 > img");
-    manejarTurno(imagen);
-  };
-  const divOtamendi1 = document.querySelector("#div-otamendi-1");
-  divOtamendi1.onclick = function () {
-    const imagen = document.querySelector("#div-otamendi-1 > img");
-    manejarTurno(imagen);
-  };
-
-  const divOtamendi2 = document.querySelector("#div-otamendi-2");
-  divOtamendi2.onclick = function () {
-    const imagen = document.querySelector("#div-otamendi-2 > img");
-    manejarTurno(imagen);
-  };
-  const divAlvarez1 = document.querySelector("#div-alvarez-1");
-  divAlvarez1.onclick = function () {
-    const imagen = document.querySelector("#div-alvarez-1 > img");
-    manejarTurno(imagen);
-  };
-
-  const divAlvarez2 = document.querySelector("#div-alvarez-2");
-  divAlvarez2.onclick = function () {
-    const imagen = document.querySelector("#div-alvarez-2 > img");
-    manejarTurno(imagen);
-  };
-
-  const divDibu1 = document.querySelector("#div-dibu-1");
-  divDibu1.onclick = function () {
-    const imagen = document.querySelector("#div-dibu-1 > img");
-    manejarTurno(imagen);
-  };
-
-  const divDibu2 = document.querySelector("#div-dibu-2");
-  divDibu2.onclick = function () {
-    const imagen = document.querySelector("#div-dibu-2 > img");
-    manejarTurno(imagen);
-  };
-}
+function habilitarClickCuadro() {
+  const $tablero=document.querySelector('#cuadro-juego');
+  $tablero.onclick=function(e){
+    const $elemento=e.target.id;
+    const $imagen=document.querySelector(`#${$elemento} > img`)
+    manejarTurno($imagen);
+  }}
 
 function arrayAleatorio(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -234,10 +177,8 @@ function desordenarDivs() {
 
 function reiniciarJuego() {
   detenerCronometro(cronometro);
-  horas = 0;
   minutos = 0;
   segundos = 0;
-  document.querySelector("#horas").textContent = "00";
   document.querySelector("#minutos").textContent = "00";
   document.querySelector("#segundos").textContent = "00";
 
@@ -257,8 +198,6 @@ function reiniciarJuego() {
   $mensajeGanador.classList.add("invisible");
 
   desordenarDivs();
-
-  habilitarClick();
 
   const $botonComenzarJuego = document.querySelector("#comenzar-juego");
   $botonComenzarJuego.classList.remove("invisible");
