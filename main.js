@@ -64,6 +64,7 @@ function ocultarCartas() {
 function ejecutarPasoUno(cartaElegida) {
   seleccionarCarta(cartaElegida);
   mostrarCarta(cartaElegida);
+  bloquearClickImagen(cartaElegida);
 }
 
 function ejecutarPasoDos(cartaElegida) {
@@ -101,9 +102,9 @@ function avanzarPasoIncorrecto() {
   document.querySelector(
     "#errores-cometidos"
   ).innerText = `Errores cometidos: ${erroresCometidos}`;
-  bloquearClick();
+  bloquearClickCuadro();
   setTimeout(ocultarCartas, 1000);
-  setTimeout(habilitarClick, 1000);
+  setTimeout(habilitarClickCuadro, 1000);
 }
 
 document.querySelector("#comenzar-juego").onclick = function () {
@@ -118,31 +119,28 @@ function ocultarBotonComenzar() {
 function comenzarJuego() {
   desordenarDivs(); // Desordenar las cartas antes de comenzar
   iniciarCronometro();
-  habilitarClick();
+  habilitarClickCuadro();
   ocultarBotonComenzar();
 }
 
-function bloquearClick() {
+function bloquearClickImagen(imagen){
+  imagen.onclick=function(){}
+}
+
+function bloquearClickCuadro() {
   const imagenes = document.querySelectorAll("img");
   imagenes.forEach(function (imagen) {
     imagen.onclick = function () {};
   });
 }
 
-function habilitarClick() {
-  const divScaloni1 = document.querySelector("#div-scaloni-1");
-  divScaloni1.onclick = function () {
-    const imagen = document.querySelector("#div-scaloni-1 > img");
-    console.log(imagen);
-    manejarTurno(imagen);
-  }};
-
-const $tablero=document.querySelector('#cuadro-juego');
-$tablero.onclick=function(e){
-  const $elemento=e.target.id;
-  const $imagen=document.querySelector(`#${$elemento} > img`)
-  manejarTurno($imagen);
-}
+function habilitarClickCuadro() {
+  const $tablero=document.querySelector('#cuadro-juego');
+  $tablero.onclick=function(e){
+    const $elemento=e.target.id;
+    const $imagen=document.querySelector(`#${$elemento} > img`)
+    manejarTurno($imagen);
+  }}
 
 function arrayAleatorio(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -179,10 +177,8 @@ function desordenarDivs() {
 
 function reiniciarJuego() {
   detenerCronometro(cronometro);
-  horas = 0;
   minutos = 0;
   segundos = 0;
-  document.querySelector("#horas").textContent = "00";
   document.querySelector("#minutos").textContent = "00";
   document.querySelector("#segundos").textContent = "00";
 
@@ -202,8 +198,6 @@ function reiniciarJuego() {
   $mensajeGanador.classList.add("invisible");
 
   desordenarDivs();
-
-  habilitarClick();
 
   const $botonComenzarJuego = document.querySelector("#comenzar-juego");
   $botonComenzarJuego.classList.remove("invisible");
