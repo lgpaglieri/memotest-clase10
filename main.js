@@ -24,6 +24,10 @@ function detenerCronometro() {
 }
 
 function manejarTurno(cartaElegida) {
+  if (memoriaTagCartas.includes(cartaElegida)) {
+    return;
+  }
+
   if (memoriaNombres.length === 0) {
     console.log("ejecutando paso 1");
     console.log(cartaElegida);
@@ -117,7 +121,7 @@ function ocultarBotonComenzar() {
 }
 
 function comenzarJuego() {
-  desordenarDivs(); // Desordenar las cartas antes de comenzar
+  desordenarDivs();
   iniciarCronometro();
   habilitarClickCuadro();
   ocultarBotonComenzar();
@@ -135,12 +139,20 @@ function bloquearClickCuadro() {
 }
 
 function habilitarClickCuadro() {
-  const $tablero=document.querySelector('#cuadro-juego');
-  $tablero.onclick=function(e){
-    const $elemento=e.target.id;
-    const $imagen=document.querySelector(`#${$elemento} > img`)
-    manejarTurno($imagen);
-  }}
+  const $tablero = document.querySelector('#cuadro-juego');
+  $tablero.onclick = function(e) {
+    let $elemento = e.target;
+
+    if ($elemento.tagName === 'IMG') {
+      manejarTurno($elemento);
+    } else {
+      const $imagen = $elemento.querySelector('img');
+      if ($imagen) {
+        manejarTurno($imagen);
+      }
+    }
+  };
+}
 
 function arrayAleatorio(array) {
   for (let i = array.length - 1; i > 0; i--) {
