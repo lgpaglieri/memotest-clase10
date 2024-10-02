@@ -1,6 +1,6 @@
 ///<reference types="Cypress" />
 
-const URL = "192.168.0.106:8080";
+const URL = "192.168.0.186:8080";
 
 context("Memotest", () => {
   beforeEach(() => {
@@ -24,17 +24,19 @@ context("Memotest", () => {
     cy.get("#comenzar-juego").should("be.visible");
   });
 
+  let imagenesOriginales = [];
   it("se asegura que las posiciones de las imagenes sean aleatorias", () => {
     cy.get("#cuadro-juego")
-      .find("img")
+      .find("img")     
       .then((imagenes) => {
-        let imagenesOriginales = [];
         imagenes.each(function (i, imagen) {
           imagenesOriginales.push(imagen.name);
         });
-
-        cy.visit(URL);
-
+      })
+    cy.visit(URL);
+    cy.get("#cuadro-juego")
+      .find("img")
+      .then((imagenes) => {
         let imagenesNuevas = [];
         cy.get("#cuadro-juego")
           .find("img")
@@ -52,34 +54,34 @@ context("Memotest", () => {
 
   describe("ejecuta las pruebas de una seleccion erronea", () => {
     let mapaDePares, listaDePares;
-  
+
     beforeEach(() => {
-      cy.get('#comenzar-juego').click(); // Comienza el juego antes de cada prueba
-      cy.get('img').then(cuadros => {
+      cy.get("#comenzar-juego").click();
+      cy.get("img").then((cuadros) => {
         mapaDePares = obtenerParesDeCuadros(cuadros);
         listaDePares = Object.values(mapaDePares);
       });
     });
-  
-    it('se asegura que eligiendo una combinacion erronea las imagenes se vuelvan a ocultar', () => {
+
+    it("se asegura que eligiendo una combinacion erronea las imagenes se vuelvan a ocultar", () => {
       listaDePares[0][0].click();
       listaDePares[1][0].click();
       cy.get("#cuadro-juego").find("img.invisible").should("have.length", 12);
     });
-  
-    it('se asegura que eligiendo una combinacion erronea aparezca el indicador de errores', () => {
+
+    it("se asegura que eligiendo una combinacion erronea aparezca el indicador de errores", () => {
       listaDePares[0][0].click();
       listaDePares[1][0].click();
       cy.get("#errores-cometidos").should("be.visible");
     });
-  
-    it('se asegura que eligiendo una combinacion erronea el indicador de errores valga 1', () => {
+
+    it("se asegura que eligiendo una combinacion erronea el indicador de errores valga 1", () => {
       listaDePares[0][0].click();
       listaDePares[1][0].click();
-      cy.get("#errores-cometidos").should('have.text', 'Errores cometidos: 1');
+      cy.get("#errores-cometidos").should("have.text", "Errores cometidos: 1");
     });
-  
-    it('se asegura que eligiendo una combinacion correcta las imagenes queden visibles', () => {
+
+    it("se asegura que eligiendo una combinacion correcta las imagenes queden visibles", () => {
       listaDePares[0][0].click();
       listaDePares[0][1].click();
       cy.wait(2000);
@@ -88,16 +90,16 @@ context("Memotest", () => {
   });
   describe("ejecuta las pruebas de una seleccion correcta", () => {
     let mapaDePares, listaDePares;
-  
+
     beforeEach(() => {
-      cy.get('#comenzar-juego').click();
-      cy.get('img').then(cuadros => {
+      cy.get("#comenzar-juego").click();
+      cy.get("img").then((cuadros) => {
         mapaDePares = obtenerParesDeCuadros(cuadros);
         listaDePares = Object.values(mapaDePares);
       });
     });
-  
-    it('se asegura que eligiendo una combinacion correcta las imagenes queden visibles', () => {
+
+    it("se asegura que eligiendo una combinacion correcta las imagenes queden visibles", () => {
       listaDePares[0][0].click();
       listaDePares[0][1].click();
       cy.wait(2000);
@@ -106,10 +108,10 @@ context("Memotest", () => {
   });
 
   describe("resuelve el juego", () => {
-    it('se asegura que al elegir todas las imagenes correctas aparezca el mensaje ganador', () => {
-    let mapaDePares, listaDePares;
-      cy.get('#comenzar-juego').click();
-      cy.get('img').then(cuadros => {
+    it("se asegura que al elegir todas las imagenes correctas aparezca el mensaje ganador", () => {
+      let mapaDePares, listaDePares;
+      cy.get("#comenzar-juego").click();
+      cy.get("img").then((cuadros) => {
         mapaDePares = obtenerParesDeCuadros(cuadros);
         listaDePares = Object.values(mapaDePares);
         listaDePares[0][0].click();
@@ -125,11 +127,10 @@ context("Memotest", () => {
         listaDePares[5][0].click();
         listaDePares[5][1].click();
         cy.get("body").find("#mensaje-ganador").should("be.visible");
+      });
     });
   });
-  });
-  });
-
+});
 
 function obtenerParesDeCuadros(cuadros) {
   const pares = {};

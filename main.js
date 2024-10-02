@@ -23,6 +23,9 @@ function detenerCronometro() {
   clearInterval(cronometro);
 }
 
+let memoriaNombres = [];
+let memoriaTagCartas = [];
+
 function manejarTurno(cartaElegida) {
   if (memoriaTagCartas.includes(cartaElegida)) {
     return;
@@ -41,9 +44,6 @@ function manejarTurno(cartaElegida) {
   }
   validarProgreso();
 }
-
-let memoriaNombres = [];
-let memoriaTagCartas = [];
 
 function seleccionarCarta($cartaElegida) {
   nombreCarta = $cartaElegida.name;
